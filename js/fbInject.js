@@ -23,15 +23,30 @@ function manipulate(){
 	}
 	
 	sidId = document.createElement("DIV"); 
-	sidId.innerHTML = "<p id='sidId'></p>";
+	sidId.innerHTML = "<p id='sidId' style = 'display:none'></p>";
 	document.getElementsByClassName('photoContainer')[0].appendChild(sidId);
 	/*timeLineCName.innerHTML += 
 		'<span class="_5rqt"><span class="_5rqu"><span data-hover="tooltip" data-tooltip-position="right" class="_56_f _5dzy _5d-1 _5d-3" id="u_jsonp_2_7" aria-label="sID Verified User"></span></span></span>'
 	*/
 	var node = document.createElement("DIV");  
-	node.innerHTML=('<div class="_6a uiPopover _6-6 _9rx _5v-0" id="u_0_p"><a class="_9ry _p" href="#" aria-haspopup="true" aria-expanded="false" rel="toggle" role="button" id="u_0_q" aria-owns="u_a_0">sID Analytics<i class="_bxy img sp_qk8sNUxukfD sx_1586e3"></i></a></div>');
+//	node.innerHTML=('<div class="_6a uiPopover _6-6 _9rx _5v-0" id="u_0_p"><a class="_9ry _p" href="#" aria-haspopup="true" aria-expanded="false" rel="toggle" role="button" id="u_0_q1" aria-owns="u_a_0">sID Analytics<i class="_bxy img sp_qk8sNUxukfD sx_1586e3"></i></a></div>');
+//	node.innerHTML=('<div class="_6a uiPopover dropdown _6-6 _9rx _5v-0" id="u_0_p1"><a class="_9ry _p" id="u_0_q1" aria-owns="u_a_0">sID Analytics</a></div>');
+	
+//	node.innerHTML = '<ul class="_6a dropdown _6-6 _9rx _5v-0 "><li><a href="…">Page 1</a><ul><li><a href="…">Sub-page 1.1</a></li><li><a href="…">Sub-page 1.2</a></li></ul></li></ul>';
+	
+	//node.innerHTML = '<div id = "test" class="dropdown"><button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">sid Analytics<span class="caret"></span></button><ul class="dropdown-menu"><li><a href="#">HTML</a></li><li><a href="#">CSS</a></li><li><a href="#">JavaScript</a></li></ul></div>';
+	
+	$.get(chrome.extension.getURL("html/sidAnalytics.html"), function(data) {
+		//$(data).appendTo('body');
+		// Or if you're using jQuery 1.8+:
+		// $($.parseHTML(data)).appendTo('body');
+		//console.log(data);
+		node.innerHTML = data;
+		commitChart();
+	});
 	
 	document.getElementsByClassName('_6_7 clearfix')[0].appendChild(node);
+	
 	
 }
 
@@ -48,7 +63,6 @@ function updateProfPic(){
 		targetUser: profID	
 	},
 	function(data, status){
-		
 		imgURL = chrome.extension.getURL("resources/icons/prof" + data.rating + ".png");
 		document.getElementById('verif').src = imgURL;
 		$("#verif").fadeIn(2000);
@@ -60,7 +74,7 @@ function scoreClaimsOnTimeLine(arrIndex){
 	var cla = document.getElementsByClassName("_1zw6 _md0 _5vb9")[arrIndex].getElementsByClassName("_50f3")[0];
 	var claim = document.createElement("DIV");
 	var iconID = 'claimR'+arrIndex;
-	var iconClass = 'ring';
+	var iconClass = 'claim';
 	var claimScore = 'T';
 	
 	claim.innerHTML = "<img id = '" + iconID + "' class = '" + iconClass + "' >"
@@ -73,7 +87,7 @@ function scoreClaimsOnTimeLine(arrIndex){
 	},
 	function(data,status){
 		claimScore = data.rating;
-		var imgURL = chrome.extension.getURL("resources/icons/ring"+claimScore+".png");
+		var imgURL = chrome.extension.getURL("resources/icons/"+iconClass+claimScore+".png");
 		document.getElementById(iconID).src = imgURL;
 	});
 }
@@ -92,7 +106,6 @@ function extract_UserID(){
 		console.log("Synchronization Issue. Page will be reloded");
 		window.location.reload();
 	}
-	console.log("dodan");
 	return profID;
 	
 }
@@ -107,6 +120,64 @@ function getCookie(cname) {
         if (c.indexOf(name) === 0) return c.substring(name.length,c.length);
     }
     return "";
+}
+
+/*TODO Move post request to solve loading time issues*/
+function drawPieChart(){
+	var verified =50;
+	var rejected =50;
+	var uncertain=50;
+	$.post("https://id.projects.mrt.ac.lk:9000/claimRating",{
+		sender : 12,
+		target : 12,
+		cClass : 12,
+		claimId :12
+	},
+	function(data,status){
+		verified = data.positive;
+		rejected = data.negative;
+		uncertin = data.uncertain;
+		
+		var pieData = [
+			{
+				value: rejected,
+				color:"#F7464A",
+				highlight: "#FF5A5E",
+				label: "Rejected"
+			},
+			{
+				value: verified,
+				color: "#46BF7D",
+				highlight: "#5AD391",
+				label: "Verified"
+			},
+			{
+				value: uncertain,
+				color: "#FDB45C",
+				highlight: "#FFC870",
+				label: "Uncertain"
+			}
+		];
+		
+		var ctx = document.getElementById("myChart").getContext("2d");
+		try{
+			window.myPie = new Chart(ctx).Pie(pieData,{
+				animation: true,
+				animationEasing: "easeInOutQuart"
+				//add more chart configs here as needed
+			});
+		}catch(err){
+			console.log(err);
+		}
+		
+	});
+	
+}
+function commitChart(){
+	var sidDropdown = document.getElementById('sidDropdown');
+	sidDropdown.addEventListener('mouseover', function() {
+		drawPieChart();
+	});
 }
 
 
