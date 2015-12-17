@@ -1,3 +1,6 @@
+//window.open('main.html','_self');//TODO for testing purposes only, when server is down. remove imediately after server starts
+
+/* globals chrome,getCookie,setCookie,injectCookie: false */
 
 if(getCookie("sidSession")==="true"){	/*TODO Manipulate Cookies with a better approach*/
 	window.open('main.html','_self');
@@ -15,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				displayError("Please fill your details");
 				return;
 			}
-			$.post("https://id.projects.mrt.ac.lk:9000/authenticate",
+			$.post("https://sid.projects.mrt.ac.lk:9000/authenticate",
 			{
 				username: usr.value,	//get value from input text field
 				password: pwd.value		//get value from input text field
@@ -28,6 +31,26 @@ document.addEventListener('DOMContentLoaded', function() {
 						setCookie("sidSession","true",3);	//expires after 3 days if not logged out
 						injectCookie("sidSession","true",3); 	//inject to save cookie inside the main browser
 						window.open('main.html','_self');
+						//chrome.tabs.query({url:"https://*.facebook.com/*"}, function (tabAr){
+							//for(var i=0;tabAr.length;i++){
+								/*chrome.tabs.executeScript(tabAr[i].id,{
+									file:'js/jquery-1.11.3.min.js'	//Inject script on sign in 
+								},function(){});
+								chrome.tabs.executeScript(tabAr[i].id,{
+									file:'js/configs.js'	//Inject script on sign in 
+								},function(){});
+								chrome.tabs.executeScript(tabAr[i].id,{
+									file:'js/cookie.js'	//Inject script on sign in
+								},function(){});
+								chrome.tabs.executeScript(tabAr[i].id,{
+									file:'js/fbInject.js',	//Inject script on sign in
+									runAt: "document_end"
+								},function(){});
+								*/
+								//TODO Load these from separate js file
+							//}
+						//});
+						
 					}else{
 						displayError("Invalid Username or Password");
 					}

@@ -4,7 +4,7 @@
   "name": "sID",
   "description": "Chromium Extension for sID",
   "version": "1.0",
-  "permissions": [ "webNavigation", "activeTab" , "tabs", "http://*/*", "https://*/*", "unlimitedStorage", "https://www.facebook.com/*" ],
+  "permissions": [ "webNavigation", "activeTab" , "tabs", "http://*/*", "https://*/*", "unlimitedStorage", "https://www.facebook.com/*", "https://web.facebook.com/*","notifications" ],
   
   "optional_permissions": [ "webRequest" ],
      
@@ -13,20 +13,24 @@
    "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
+    "scripts": ["js/background.js","js/cookie.js"],
+    "persistent": true
   },
   "web_accessible_resources": [
-    "resources/icons/claimT.png" , "resources/icons/claimR.png" , "resources/icons/claimC.png",
-	"resources/icons/profT.png" , "resources/icons/profR.png" , "resources/icons/profC.png"  , 
-	"resources/icons/ringT.png", "resources/icons/ringR.png", "resources/icons/ringC.png",
-	"html/sidAnalytics.html"
+    "resources/icons/claimT.png" , "resources/icons/claimR.png" , "resources/icons/claimC.png" , "resources/icons/claimN.png",
+	"resources/icons/profT.png" , "resources/icons/profR.png" , "resources/icons/profC.png" ,  "resources/icons/profN.png" , 
+	"resources/icons/prof_li_T.png" , "resources/icons/prof_li_R.png" , "resources/icons/prof_li_C.png" , "resources/icons/prof_li_N.png" ,
+	"resources/icons/ringT.png", "resources/icons/ringR.png", "resources/icons/ringC.png", "resources/icons/ringN.png",
+	"resources/icons/popupBase.png",
+	"resources/images/analytics_header.png","resources/images/legend.png",
+	"html/sidAnalytics.html", "html/sidAnalytics_li.html", "html/ratePopup.html"
   ],
   "content_scripts":[
 	  {
 		"matches": ["http://*/*","https://*/*"],
-		"js": ["js/jquery-1.11.3.min.js","js/chart.min.js"],
-		"css": ["css/fbInject.css","css/dropdown.css"]
+		"css": ["css/dropdown.css","css/popUpStyles.css"],
+		"html":["html/ratePopup.html"],
+		"js":["js/wakeUp.js"]
 	  }
   ]
 }

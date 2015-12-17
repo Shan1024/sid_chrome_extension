@@ -1,3 +1,4 @@
+/* globals setCookie,injectCookie: false */
 
 /**Log into the sid, if cookie says "yes"*/
 document.addEventListener('DOMContentLoaded', function() {
@@ -12,3 +13,5 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}catch(e){/*Do Nothing*/}
 }, false);
+
+
