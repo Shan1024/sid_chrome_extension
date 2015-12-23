@@ -1,3 +1,20 @@
+
+img.premium{
+	top:30px;
+	left:30px;
+	width:180px;
+	height:180px;
+}
+
+canvas.drop_chart{
+	width: 150px;
+	height: 150px;
+	min-width: 150px;
+	min-height: 150px;
+	margin-top:50px;
+	margin-left:50px;
+}
+
 img.profIcon {
 	position:absolute;
 	z-index:1;
@@ -7,6 +24,8 @@ img.profIcon {
 	left:0px;
 	top:0px;
 }
+
+
 
 img.friendProfIcon{
 	position:absolute;
@@ -66,15 +85,16 @@ img.claimWork{
 	top:15px;
 }
 
-div.claimEvents_d{
+div.claimMain_d{
 	position:absolute;
 	z-index:1;
 	height: 20px;
     width: 20px;
 	left:-570px;
+	top:-20px;
 }
 
-img.claimEvents{
+img.claimMain{
 	position:relative;
 	z-index:1;
 	height: 20px;
@@ -122,32 +142,20 @@ img.popup{
 	position:absolute;
 }
 
-div.Events{
+div.Main{
 	position:absolute;
 	height:auto;
 	width:auto;
 	left:550px;
 }
 
-canvas.drop_chart{
-	width: 150px;
-	height: 150px;
-	min-width: 150px;
-	min-height: 150px;
-	margin-top:25px;
-	margin-left:50px;
-}
+
 
 img.dropHeader{
 	width:250px;
 }
 
-img.premium{
-	top:30px;
-	left:30px;
-	width:180px;
-	height:180px;
-}
+
 
 a.verA{
 	width:inherit;
@@ -168,14 +176,6 @@ div.popupChart{
     background-color: white;
 }
 
-canvas.drop_chart{
-	width: 150px;
-	height: 150px;
-	min-width: 150px;
-	min-height: 150px;
-	margin-top:25px;
-	margin-left:50px;
-}
 
 canvas.mini_chart{
 	width: 100px;
@@ -189,3 +189,4 @@ canvas.mini_chart{
 li.listElement{
 	width:110px;
 }
+
